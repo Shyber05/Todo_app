@@ -1,0 +1,73 @@
+<!-- Jinga template -->
+{% extends 'base.html' %}
+
+{% block head %}
+<title>ToDo</title>
+{% endblock %}
+
+{% block body %}
+<div class="container" >
+{% if tasks|length < 1 %}
+<h4 style="text-align:center; color: aliceblue;">You completed all your tasks! Add new ones below </h4>
+{% else %}
+    <table class="table table-dark">
+        <thead>
+            <tr style="color:aliceblue; font-family: cursive; font-size:medium;">
+                <th class="col" style="text-align:center">Status</th>
+                <th class="col" style="text-align:center">Task</th>
+                <th class="col" style="text-align:center">Due Date</th>
+                <th class="col" style="text-align:center">Added</th>
+                <th class="col" style="text-align:center">Actions</th>
+            </tr>
+        </thead>
+        {% for task in tasks %}
+        <tr style="color:aliceblue">
+            <td class="col">
+                    <div style="text-align:center">
+                        <a href="/completed/{{task.id}}">
+                            {% if task.completed == False %}
+                                <button type="button" class="btn btn-info btn-sm">In progress</button>
+                            {% elif task.completed == True %}
+                                <button type="button" class="btn btn-success btn-sm">Completed!</button>
+                            {% endif %}
+                        </a>
+                    </div>
+            </td>
+                {% if task.completed == True %}
+                        <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.content }}</td>
+                        <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.due_date }}</td>
+                        <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.date_created.date() }}</td>
+                {% elif task.completed == False %}
+                        <td class="col" style="text-align:center">{{ task.content }}</td>
+                        <td class="col" style="text-align:center">{{ task.due_date }}</td>
+                        <td class="col" style="text-align:center">{{ task.date_created.date() }}</td>
+                {% endif %}
+                        <td class="col" style="text-align:center">
+                            <a class="btn btn-light btn-sm" href="/update/{{task.id}}">Update</a>
+                            <a class="btn btn-light btn-sm" href="/delete/{{task.id}}">Delete</a>
+                        </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endif %}
+
+</div>
+<div class="container">
+    <form class="form-group" action="/" method="POST" style="color:white;">
+        {{ form.hidden_tag() }}
+            <div style="padding: 4%">
+                {{form.task.label()}}
+                {{form.task(class="form-control", placeholder="Task")}}
+
+
+                {{form.due_date.label()}}
+                {{form.due_date(class="form-control", placeholder="Due Date")}}
+
+                <br>
+                {{form.submit(class="btn btn-info btn-sm",)}}
+                <br>
+            </div>
+        </form>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!-- Jinga template -->
+{% extends 'base.html' %}
+
+{% block head %}
+<title>login</title>
+{% endblock %}
+
+{% block body %}
+<h1 style="color:aliceblue; font-family:cursive">Login</h1>
+<div class="container" >
+    <form class="form-register" style="color:white;" action="/" method="POST">
+        <br>
+        {{ form.username.label() }}
+        {{ form.username(class="form-control", placeholder="Username") }}
+
+        <br>
+        {{ form.password.label() }}
+        {{ form.password(class="form-control", placeholder="Password:" ) }}
+
+        <br>
+        <div>
+            <h3 style="font-family:cursive">Need an account?</h3>
+            <a class="btn btn-default" href="/signup">Register here</a>
+        </div>
+        <br>
+        {{ form.submit(class="btn btn-info", placeholder="Create Account") }}
+    </form>
+</div>
+
+{% endblock %}

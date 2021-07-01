@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrapp CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <title>ToDo</title>
+    {% block head %}{% endblock %}
+</head>
+
+    <!-- allows for messages to appear Client-side -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">   
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span> <!--DOES NOT CLOSE ON CLICK!!!-->
+            </button>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<body style="background-color:#231f20" class="text-center">
+    <div class="container">
+        <nav class="navbar navbar-right" >
+                <div class="navbar-header">
+                    <div style="text-align:right;">
+                        <!-- <a class="btn btn-success btn-navbar btn-sm" href="{{ url_for('index')}}">Home</a> -->
+                        <a class="btn btn-success btn-navbar btn-sm" href="/">Home</a>
+                        <a class="btn btn-info btn-navbar btn-sm" href="/signup">Signup</a>
+                        <a class="btn btn-info btn-success btn-sm" href="/login">Login</a>
+                        <a class="btn btn-danger btn-navbar btn-sm" href="/logout">Logout</a>
+                    </div>
+                </div>
+        </nav>
+    </div>
+    <h1 class="container" style="text-align:center; color:aliceblue; font-family:cursive; ">ToDo</h1>
+    {% block body %}
+    {% endblock %}
+
+    <script href="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script href="{{ url_for('static', filename='js/bootstrap-confirmation.min.js')}}"></script>
+    <script href="{{ url_for('static', filename='js/jquery-3.2.1.min.js')}}"></script>
+
+</body>
+</html>
