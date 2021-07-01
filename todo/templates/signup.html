@@ -11,7 +11,7 @@
 <h1 class="container" style="text-align:center ; color:aliceblue; font-family:cursive; ">Create an Account</h1>
 <br>
 <div class="container" >
-    <form class="form-register" style="color:white;" action="/" method="POST">
+    <form class="form-register" style="color:white;" action="{{url_for('index')}}" method="POST">
         {{ form.hidden_tag() }}           <!--Protects against cross-site forgery -->
 
         {{ form.username.label() }}

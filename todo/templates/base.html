@@ -32,9 +32,9 @@
                     <div style="text-align:right;">
                         <!-- <a class="btn btn-success btn-navbar btn-sm" href="{{ url_for('index')}}">Home</a> -->
                         <a class="btn btn-success btn-navbar btn-sm" href="/">Home</a>
-                        <a class="btn btn-info btn-navbar btn-sm" href="/signup">Signup</a>
-                        <a class="btn btn-info btn-success btn-sm" href="/login">Login</a>
-                        <a class="btn btn-danger btn-navbar btn-sm" href="/logout">Logout</a>
+                        <a class="btn btn-info btn-navbar btn-sm" href="{{ url_for('signup') }}">Signup</a>
+                        <a class="btn btn-info btn-success btn-sm" href="{{ url_for('login') }}">Login</a>
+                        <a class="btn btn-danger btn-navbar btn-sm" href="{{ url_for('logout') }}">Logout</a>
                     </div>
                 </div>
         </nav>
