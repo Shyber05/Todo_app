@@ -8,7 +8,8 @@
 {% block body %}
 <h1 style="color:aliceblue; font-family:cursive">Login</h1>
 <div class="container" >
-    <form class="form-register" style="color:white;" method="POST">
+    <form class="form-signin" style="color:white;" method="POST">
+        {{form.hidden_tag()}}
         <br>
         {{ form.username.label() }}
         {{ form.username(class="form-control", placeholder="Username") }}
@@ -18,12 +19,12 @@
         {{ form.password(class="form-control", placeholder="Password:" ) }}
 
         <br>
+        <br>
+        {{ form.submit(class="btn btn-info", placeholder="Create Account") }}
         <div>
             <h3 style="font-family:cursive">Need an account?</h3>
             <a class="btn btn-default" href="/signup">Register here</a>
         </div>
-        <br>
-        {{ form.submit(class="btn btn-info", placeholder="Create Account") }}
     </form>
 </div>
 
