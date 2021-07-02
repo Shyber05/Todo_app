@@ -12,12 +12,12 @@ class SignupForm(FlaskForm):
     submit = SubmitField(label='Create Account')
 
     def validate_username(self,username_to_check):
-        user = User.query.filter_by(username=username_to_check.data()).all()
+        user = User.query.filter_by(username=username_to_check.data).first()
         if user:
             raise ValidationError('Username is taken please try again.')
 
     def validate_email_address(self,email_to_validate):
-        email = User.query.filter_by(email_address=email_to_validate.data()).all()
+        email = User.query.filter_by(email_address=email_to_validate.data).first()
         if email:
             raise ValidationError('Email is already registered. Please try again')
 

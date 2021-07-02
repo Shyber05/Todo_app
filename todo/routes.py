@@ -85,7 +85,7 @@ def login():
     form = LoginForm()
     if current_user.is_authenticated:
         return redirect(url_for("index"))
-    if form.validate_on_submit():
+    elif form.validate_on_submit():
         user_to_login = User.query.filter_by(username=form.username.data).first()
         if user_to_login and user_to_login.check_password(password_attempt=form.password.data):     #User_to_login should not return None if in db
             login_user(user_to_login)
