@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
-from wtforms.fields.html5 import DateTimeLocalField
+from wtforms.fields.html5 import DateTimeLocalField 
 from todo.models import User
 
 class SignupForm(FlaskForm):

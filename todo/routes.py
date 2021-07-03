@@ -1,4 +1,4 @@
-from flask import redirect, url_for, render_template, request, redirect, flash
+from flask import redirect, url_for, render_template, request, flash
 from flask_login import logout_user, login_required, current_user, login_user
 from todo import app, db
 from todo.models import ToDO, User
@@ -14,9 +14,10 @@ def index():
 @login_required
 def home():
 
-    # all_tasks = ToDO.query.filter_by(creator=current_user.username).all()
-    tasks = ToDO.query.filter_by(creator=current_user.username).all()
+    '''line below returns the tasks with the completed at the bottom but shows all tasks in db'''
+    # tasks = ToDO.query.order_by(ToDO.completed).all()   
 
+    tasks = ToDO.query.filter_by(creator=current_user.username).all()
 
     form = ToDoForm()
     if request.method == "POST":
