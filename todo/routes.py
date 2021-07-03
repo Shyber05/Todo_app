@@ -6,25 +6,32 @@ from todo.forms import LoginForm, SignupForm, ToDoForm
 
 
 
-@app.route("/", methods=["POST", "GET"])
-@login_required
+@app.route("/")
 def index():
+    return redirect("home")
 
-    tasks = ToDO.query.order_by(ToDO.completed).all()    #returns all tasks, completed at the bottom 
+@app.route("/home", methods=["POST", "GET"])
+@login_required
+def home():
+
+    # all_tasks = ToDO.query.filter_by(creator=current_user.username).all()
+    tasks = ToDO.query.filter_by(creator=current_user.username).all()
+
+
     form = ToDoForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            new_task = ToDO(content=form.task.data, due_date=form.due_date.data)
+            new_task = ToDO(content=form.task.data, due_date=form.due_date.data, creator=current_user.username)
 
             db.session.add(new_task)
             db.session.commit()
-            return redirect(url_for("index"))
+            return redirect(url_for("home"))
 
         if form.errors != {}:  
-        #Form should return empty dic if there's no errors
             for error_msg in form.errors.values():
                 flash(f'There is an Error creating your task {error_msg}', category="danger")
-    return render_template("index.html", tasks=tasks, form=form) 
+            
+    return render_template("home.html", tasks=tasks, form=form) 
     
 
 @app.route("/delete/<int:id>" )
@@ -34,7 +41,7 @@ def delete(id):
     try:
         db.session.delete(todo_task_delete)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     except:
         return "Sorry there was an issue deleting your Task"
 
@@ -50,7 +57,7 @@ def update(id):
 
             db.session.add(updated_task_due)
             db.session.commit()
-            return redirect(url_for("index"))
+            return redirect(url_for("home"))
 
         if form.errors != {}:  
         #Form should return empty dic if there's no errors
@@ -84,13 +91,13 @@ def complete(id):
 def login():
     form = LoginForm()
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
-    elif form.validate_on_submit():
+        return redirect(url_for("home"))
+    if form.validate_on_submit():
         user_to_login = User.query.filter_by(username=form.username.data).first()
         if user_to_login and user_to_login.check_password(password_attempt=form.password.data):     #User_to_login should not return None if in db
             login_user(user_to_login)
-            flash(f"You have succesfully logged in as {user_to_login.username}")
-            return redirect(url_for("index"))
+            flash(f"You have succesfully logged in as {user_to_login.username}", category="success")
+            return redirect(url_for("home"))
 
         else:
             flash("That Username and Password does not exist. Please try again", category="danger")
@@ -100,6 +107,7 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
+    db.session.close_all()
     flash(f'You are now logged out!', category="info")
     return redirect(url_for("signup"))
 
@@ -116,7 +124,7 @@ def signup():
             db.session.commit()
             login_user(new_user)
             flash(f'Your account has been created! You are now logged in as {new_user.username}', category="success")
-            return redirect(url_for("index"))
+            return redirect(url_for("home"))
     if form.errors != {}:
         for error_msg in form.errors.values():
             flash(f'There was an error creating your account: {error_msg}', category="danger")
