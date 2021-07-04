@@ -5,12 +5,15 @@
 {% endblock %}
 
 {% block body %}
+
+
 <div class="container" >
 {% if tasks|length < 1 %}
 <h4 style="text-align:center; color: aliceblue;">You completed all your tasks! Add new ones below </h4>
 {% else %}
-    <table class="table table-dark">
-        <thead>
+<div class="container">
+    <table class="table jq-orderable" style="background-color:white" id="myTable" ondragstart="return false">
+        <thead style="background-color:#024457">
             <tr style="color:aliceblue; font-family: cursive; font-size:medium;">
                 <th class="col" style="text-align:center">Status</th>
                 <th class="col" style="text-align:center">Task</th>
@@ -20,34 +23,37 @@
             </tr>
         </thead>
         {% for task in tasks %}
-        <tr style="color:aliceblue">
-            <td class="col">
-                    <div style="text-align:center">
-                        <a href="/completed/{{task.id}}">
-                            {% if task.completed == False %}
-                                <button type="button" class="btn btn-info btn-sm">In progress</button>
-                            {% elif task.completed == True %}
-                                <button type="button" class="btn btn-success btn-sm">Completed!</button>
-                            {% endif %}
-                        </a>
-                    </div>
-            </td>
-                {% if task.completed == True %}
-                        <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.content }}</td>
-                        <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.due_date }}</td>
-                        <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.date_created.date() }}</td>
-                {% elif task.completed == False %}
-                        <td class="col" style="text-align:center">{{ task.content }}</td>
-                        <td class="col" style="text-align:center">{{ task.due_date }}</td>
-                        <td class="col" style="text-align:center">{{ task.date_created.date() }}</td>
-                {% endif %}
-                        <td class="col" style="text-align:center">
-                            <a class="btn btn-light btn-sm" href="/update/{{task.id}}">Update</a>
-                            <a class="btn btn-light btn-sm" href="/delete/{{task.id}}">Delete</a>
-                        </td>
-        </tr>
+        <tbody class ="jq-orderable-unit">
+            <tr class="col" style="color:#024457">
+                <td class="orderable-exclude" >
+                        <div style="text-align:center">
+                            <a href="/completed/{{task.id}}">
+                                {% if task.completed == False %}
+                                    <button type="button" class="btn btn-info btn-sm">In progress</button>
+                                {% elif task.completed == True %}
+                                    <button type="button" class="btn btn-success btn-sm">Completed!</button>
+                                {% endif %}
+                            </a>
+                        </div>
+                </td>
+                    {% if task.completed == True %}
+                            <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.content }}</td>
+                            <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.due_date }}</td>
+                            <td class="col" style="text-align:center; text-decoration: line-through;">{{ task.date_created.date() }}</td>
+                    {% elif task.completed == False %}
+                            <td class="col" style="text-align:center">{{ task.content }}</td>
+                            <td class="col" style="text-align:center">{{ task.due_date }}</td>
+                            <td class="col" style="text-align:center">{{ task.date_created.date() }}</td>
+                    {% endif %}
+                            <td class="orderable-exclude" style="text-align:center">
+                                <a class="btn btn-light btn-sm" href="/update/{{task.id}}">Update</a>
+                                <a class="btn btn-light btn-sm" href="/delete/{{task.id}}">Delete</a>
+                            </td>
+            </tr>
+        </tbody>
         {% endfor %}
     </table>
+</div>
 
 {% endif %}
 
@@ -69,4 +75,11 @@
             </div>
         </form>
 </div>
+
+
+
+
 {% endblock %}
+
+<!-- Curtisy of https://shopify.github.io/draggable/ -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.js"></script>-->
