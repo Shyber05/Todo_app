@@ -14,11 +14,7 @@ def index():
 @login_required
 def home():
 
-    '''line below returns the tasks with the completed at the bottom but shows all tasks in db for all users'''
-    # tasks = ToDO.query.order_by(ToDO.completed).all()   
-
     tasks = ToDO.query.filter_by(creator=current_user.username).all()
-    num_of_tasks = len(tasks) 
 
     form = ToDoForm()
     if request.method == "POST":
@@ -33,7 +29,7 @@ def home():
             for error_msg in form.errors.values():
                 flash(f'There is an Error creating your task {error_msg}', category="danger")
             
-    return render_template("home.html", tasks=tasks, form=form, num_of_tasks=num_of_tasks) 
+    return render_template("home.html", tasks=tasks, form=form) 
     
 
 @app.route("/delete/<int:id>" )

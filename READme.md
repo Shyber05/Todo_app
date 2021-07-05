@@ -8,3 +8,8 @@ _(in Progress)_
 - Set due-dates for to-dos
 - Ability to order to-dos
 - Marking to-dos as complete
+
+
+Features added:
+Added a jquery-orderable feature that allows foro dragging and dropping
+of tasks
